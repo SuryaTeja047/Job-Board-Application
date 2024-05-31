@@ -22,6 +22,7 @@ Note: The project is still under development and lacks some key features such as
 
 2. **Backend Setup:**
     ```sh
+    cd Job-Board-Application
     cd backend
     pip install -r requirements.txt
     python main.py
