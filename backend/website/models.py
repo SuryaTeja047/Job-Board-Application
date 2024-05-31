@@ -26,7 +26,7 @@ class Users(db.Model,UserMixin):
     def check_password(self,password):
         return check_password_hash(self.password,password)
     
-class Jobs:
+class Jobs(db.Model):
     id = db.Column(db.Integer,primary_key = True)
     title = db.Column(db.String(50),unique = False,nullable = False)
     description = db.Column(db.String(250),unique = False, nullable = False)
@@ -43,6 +43,6 @@ class Jobs:
             "company":self.company,
             "location":self.location,
             "salary":self.salary,
-            "posted_by":self.posted_by,
+            "postedBy":self.posted_by,
             "username":Users.query.get(self.posted_by).username,
         }

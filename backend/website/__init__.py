@@ -19,7 +19,7 @@ def create_app():
         app.register_blueprint(routes.routes)
         db.create_all()
     
-    CORS(app)
+    CORS(app,origins=["http://localhost:5173"])
 
     return app
     

@@ -39,7 +39,7 @@ const Register = () => {
       alert(data.message);
     } else {
       alert("Registration Succesfull!");
-      navigate('/login')
+      navigate("/login");
     }
   };
 
@@ -49,8 +49,9 @@ const Register = () => {
         <h1 className="card-tile">Register User</h1>
         <form method="POST" onSubmit={onSubmit}>
           <div className="form-group">
-            <label>Enter Username:</label>
+            <label htmlFor="username">Enter Username:</label>
             <input
+              id="username"
               className="form-control"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -86,6 +87,8 @@ const Register = () => {
               className="form-control"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              autoComplete="current-password"
             ></input>
           </div>
           <div className="form-group">
@@ -94,6 +97,8 @@ const Register = () => {
               className="form-control"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              type="password"
+              autoComplete="current-password"
             ></input>
           </div>
           <div className="form-group">

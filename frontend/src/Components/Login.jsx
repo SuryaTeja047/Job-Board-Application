@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Login = ({ onlogin }) => {
+const Login = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -26,10 +26,12 @@ const Login = ({ onlogin }) => {
     if (response.status !== 200 && response.status !== 201) {
       alert(result.message);
     } else {
+      console.log(result)
+      const token = result.token;
       const role = result.role;
-      const token = result.token
-      localStorage.setItem('token',token)
-      onlogin(role);
+      const username =result.username;
+      // localStorage.setItem('token',token)
+      onLogin(token,role,username)
       alert("Login Succesfull!");
       navigate("/");
     }
@@ -47,7 +49,7 @@ const Login = ({ onlogin }) => {
               name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="form-control"
+              className="form-control"  autoComplete="current-email"
             />
           </div>
           <div className="form-group">
@@ -58,7 +60,7 @@ const Login = ({ onlogin }) => {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="form-control"
+              className="form-control" autoComplete="current-password"
             />
           </div>
           <br />
