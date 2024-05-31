@@ -26,7 +26,8 @@ Note: The project is still under development and lacks some key features such as
     pip install -r requirements.txt
     python main.py
 
-3. **Frontend Setup:***
+3. **Frontend Setup:**
+    ```sh
     cd ../frontend
     npm install
     npm run dev
