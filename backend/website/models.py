@@ -9,6 +9,7 @@ class Users(db.Model,UserMixin):
     email = db.Column(db.String(150),nullable= False, unique = True)
     password = db.Column(db.String(250),nullable = False, unique = False)
     role = db.Column(db.String(50),nullable = False, unique = False)
+    jobs = db.relationship('Jobs')
 
     def to_json(self):
         return {
@@ -24,3 +25,24 @@ class Users(db.Model,UserMixin):
 
     def check_password(self,password):
         return check_password_hash(self.password,password)
+    
+class Jobs:
+    id = db.Column(db.Integer,primary_key = True)
+    title = db.Column(db.String(50),unique = False,nullable = False)
+    description = db.Column(db.String(250),unique = False, nullable = False)
+    company = db.Column(db.String(30),nullable = False, unique = False)
+    location = db.Column(db.String(20),unique = False, nullable = False)
+    salary = db.Column(db.Integer,unique = False, nullable = False)
+    posted_by = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
+
+    def to_json(self):
+        return {
+            "id":self.id,
+            "title":self.title,
+            "description":self.description,
+            "company":self.company,
+            "location":self.location,
+            "salary":self.salary,
+            "posted_by":self.posted_by,
+            "username":Users.query.get(self.posted_by).username,
+        }

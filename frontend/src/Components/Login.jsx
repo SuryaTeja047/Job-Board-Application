@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ onlogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -21,10 +21,15 @@ const Login = () => {
       body: JSON.stringify(data),
     };
     const response = await fetch(url, options);
+    const result = await response.json();
+
     if (response.status !== 200 && response.status !== 201) {
-      const data = await response.json();
-      alert(data.message);
+      alert(result.message);
     } else {
+      const role = result.role;
+      const token = result.token
+      localStorage.setItem('token',token)
+      onlogin(role);
       alert("Login Succesfull!");
       navigate("/");
     }
@@ -35,20 +40,25 @@ const Login = () => {
         <h1 className="card-title">Login</h1>
         <form method="POST" onSubmit={onSubmit}>
           <div className="form-group">
-            <label>Enter Email:</label>
+            <label htmlFor="email">Enter Email:</label>
             <input
-              className="form-control"
+              type="text"
+              id="email"
+              name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="form-control"
             />
           </div>
           <div className="form-group">
-            <label>Enter Password:</label>
+            <label htmlFor="password">Enter Password:</label>
             <input
-              className="form-control"
+              type="password"
+              name="password"
+              id="password"
               value={password}
-              type = "password"
               onChange={(e) => setPassword(e.target.value)}
+              className="form-control"
             />
           </div>
           <br />

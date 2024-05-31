@@ -2,13 +2,14 @@ from flask import request,jsonify,Blueprint
 from .models import Users
 from website import db
 from website import jwt
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 
 auth = Blueprint('auth',__name__)
 
 @auth.route('/users')
 def get_users():
     users = Users.query.all()
-    json_users = list(map(lambda x:x.to_json(),users))
+    json_users = [user.to_json() for user in users]
     return jsonify({"users":json_users})
 
 @auth.route('/login',methods=["POST"])
@@ -26,8 +27,8 @@ def login():
     if not user.check_password(password = password):
         return jsonify({"message":"Invalid Password!"}),400
     
-    # jwt_token = 
-    return jsonify({"message":"Login Succesfull"}),201
+    token = create_access_token(identity={'user_id':user.id,'role':user.role})
+    return jsonify({"message":"Login Succesfull","role":user.role,"token":token}),201
 
 @auth.route('/register', methods =["POST"])
 def register_user():
@@ -59,7 +60,7 @@ def register_user():
     if password!=confirm_password:
         return jsonify({"message":"Passwords doesn't match!"}),400
     
-    fullname = str(firstname.lower().capitalize() + " " +lastname.lower().capitalize())
+    fullname = f'{firstname.lower().capitalize()} {lastname.lower().capitalize()}'
 
     new_user = Users(username =  username,email = email,full_name = fullname,role = role)
     new_user.set_password(password)

@@ -1,7 +1,17 @@
 import Register from "./Components/Register";
 import Login from "./Components/Login";
+import Home  from "./Components/Home";
 import { Link, Route, Routes } from "react-router-dom";
+import { useState } from "react";
+
+
 function App() {
+  const [role, setRole] = useState("");
+   
+  const handleLogin = (role) => {
+    setRole(role);
+    console.log(role);
+  };
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -38,8 +48,12 @@ function App() {
       </nav>
       <div className="container mt-4">
         <Routes>
-          <Route path="/login" element={<Login />}></Route>
+          <Route
+            path="/login"
+            element={<Login onlogin={handleLogin} />}
+          ></Route>
           <Route path="/register" element={<Register />}></Route>
+          <Route path='/' element={<Home />}></Route>
         </Routes>
       </div>
     </>
