@@ -28,7 +28,7 @@ def login():
         return jsonify({"message":"Invalid Password!"}),400
     
     token = create_access_token(identity={'user_id':user.id})
-    return jsonify({"message":"Login Succesfull","role":user.role,"token":token,"username":user.username}),201
+    return jsonify({"message":"Login Succesfull","role":user.role.lower(),"token":token,"username":user.username}),201
 
 @auth.route('/register', methods =["POST"])
 def register_user():

@@ -1,7 +1,7 @@
 from flask import Blueprint,jsonify,request
 from flask_jwt_extended import jwt_required,get_jwt_identity
 from website import db
-from .models import Jobs
+from .models import Jobs,Users
 
 routes = Blueprint('routes',__name__)
 
@@ -69,4 +69,11 @@ def delete_job():
     except Exception as e:
         db.session.rollback()
         return jsonify({"message":str(e)}),400
-    
+
+@routes.route('/userdetails')
+@jwt_required()
+def user_details():
+    user_id = get_jwt_identity()['user_id']
+    user = Users.query.filter_by(id=user_id).first()
+    json_user = [user.to_json()]
+    return jsonify({"user":json_user})

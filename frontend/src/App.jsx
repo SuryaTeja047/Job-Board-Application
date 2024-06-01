@@ -5,9 +5,11 @@ import Login from "./Components/Login";
 import Home from "./Components/Home";
 import CreateJob from "./Components/Jobs/CreateJob";
 import Jobs from "./Components/Jobs/Jobs";
-import UserJobs from "./Components/Jobs/UserJobs"
-import ProtectedRoute  from "./Components/Home/ProtectedRoute";
-import Dashboard from "./Components/Home/Dashboard"
+import UserJobs from "./Components/Jobs/UserJobs";
+import ProtectedRoute from "./Components/Home/ProtectedRoute";
+import Dashboard from "./Components/Home/Dashboard";
+import ProfileDashboard from "./Components/Profile/ProfileDashboard";
+
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [role, setRole] = useState(localStorage.getItem("role"));
@@ -35,7 +37,7 @@ function App() {
     <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
-          <Link to={!token? '/':'/dashboard'} className="navbar-brand">
+          <Link to={!token ? "/" : "/dashboard"} className="navbar-brand">
             Job Board
           </Link>
           <button
@@ -68,16 +70,16 @@ function App() {
                 <>
                   {role === "employeer" && (
                     <>
-                    <li className="nav-item">
-                      <Link to="/createjobs" className="nav-link">
-                        Create Jobs
-                      </Link>
-                    </li>
-                    <li className="nav-item">
-                      <Link to="/userjobs" className="nav-link">
-                        My Jobs
-                      </Link>
-                    </li>
+                      <li className="nav-item">
+                        <Link to="/createjobs" className="nav-link">
+                          Create Jobs
+                        </Link>
+                      </li>
+                      <li className="nav-item">
+                        <Link to="/userjobs" className="nav-link">
+                          My Jobs
+                        </Link>
+                      </li>
                     </>
                   )}
                   {role === "job seeker" && (
@@ -96,15 +98,17 @@ function App() {
                     </button>
                   </li>
                   <li className="nav-item d-flex align-items-center">
-                    <Link to='/dashboard' className="nav-link">
-                    <img
-                      src={"https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"}
-                      alt="Profile"
-                      className="rounded-circle"
-                      width="30"
-                      height="30"
-                    />
-                    &nbsp;{username}
+                    <Link to="/profile" className="nav-link">
+                      <img
+                        src={
+                          "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+                        }
+                        alt="Profile"
+                        className="rounded-circle"
+                        width="30"
+                        height="30"
+                      />
+                      &nbsp;{username}
                     </Link>
                   </li>
                 </>
@@ -119,11 +123,10 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Home />} />
           {role === "employeer" && (
-          <>
-            <Route path="/createjobs" element={<CreateJob />} />
-            <Route path="/userjobs" element={<UserJobs/>}></Route>
-          </>
-          
+            <>
+              <Route path="/createjobs" element={<CreateJob />} />
+              <Route path="/userjobs" element={<UserJobs />}></Route>
+            </>
           )}
           {role === "job seeker" && <Route path="/jobs" element={<Jobs />} />}
           <Route path="*" element={<Navigate to="/" />} />
@@ -135,6 +138,10 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="/profile" element={
+              <ProtectedRoute isLogin={token}>
+                <ProfileDashboard />
+              </ProtectedRoute>}/>
         </Routes>
       </div>
     </>
