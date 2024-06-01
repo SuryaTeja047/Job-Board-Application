@@ -47,3 +47,11 @@ def jobs():
     jobs = Jobs.query.all()
     json_jobs = [job.to_json() for job in jobs]
     return jsonify({"jobs":json_jobs})
+
+@routes.route('/userJobs')
+@jwt_required()
+def user_job():
+    jobs = Jobs.query.filter_by(posted_by = get_jwt_identity()['user_id'])
+    json_jobs = [job.to_json() for job in jobs]
+    return jsonify({"userJobs":json_jobs})
+    

@@ -5,7 +5,7 @@ import Login from "./Components/Login";
 import Home from "./Components/Home";
 import CreateJob from "./Components/Jobs/CreateJob";
 import Jobs from "./Components/Jobs/Jobs";
-
+import UserJobs from "./Components/Jobs/UserJobs"
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [role, setRole] = useState(localStorage.getItem("role"));
@@ -65,11 +65,18 @@ function App() {
               ) : (
                 <>
                   {role === "employeer" && (
+                    <>
                     <li className="nav-item">
                       <Link to="/createjobs" className="nav-link">
                         Create Jobs
                       </Link>
                     </li>
+                    <li className="nav-item">
+                      <Link to="/userjobs" className="nav-link">
+                        My Jobs
+                      </Link>
+                    </li>
+                    </>
                   )}
                   {role === "job seeker" && (
                     <li className="nav-item">
@@ -110,7 +117,11 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Home />} />
           {role === "employeer" && (
+          <>
             <Route path="/createjobs" element={<CreateJob />} />
+            <Route path="/userjobs" element={<UserJobs/>}></Route>
+          </>
+          
           )}
           {role === "job seeker" && <Route path="/jobs" element={<Jobs />} />}
           <Route path="*" element={<Navigate to="/" />} />
