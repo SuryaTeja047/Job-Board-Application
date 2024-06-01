@@ -78,6 +78,7 @@ const Register = () => {
             <input
               className="form-control"
               value={email}
+              type="email"
               onChange={(e) => setEmail(e.target.value)}
             ></input>
           </div>
@@ -88,7 +89,7 @@ const Register = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               type="password"
-              autoComplete="current-password"
+              autoComplete="current-password" 
             ></input>
           </div>
           <div className="form-group">
