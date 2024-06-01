@@ -1,14 +1,14 @@
 import React from 'react';
-import Jobs from '../Jobs/Jobs';
-import CreateJobs from '../Jobs/CreateJob';
+import JobSeeker from './JobSeeker'
+import Employer from './Employer'
 
 const Dashboard = ({ userRole }) => {
   return (
     <div>
       {userRole === 'job seeker' ? (
-        <Jobs />
+        <JobSeeker />
       ) : (
-        <CreateJobs />
+        <Employer />
       )}
     </div>
   );
