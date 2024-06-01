@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import JobList from "./JobList"
 
 const Jobs = () => {
-  const [jobs, setJobs] = useState([]);
+  const [jobs, setJobs] = useState([ ]);
 
   useEffect(() => {
     fetchJobs();

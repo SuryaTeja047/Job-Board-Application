@@ -54,4 +54,19 @@ def user_job():
     jobs = Jobs.query.filter_by(posted_by = get_jwt_identity()['user_id'])
     json_jobs = [job.to_json() for job in jobs]
     return jsonify({"userJobs":json_jobs})
+
+@routes.route('/delete-job',methods=["DELETE"])
+def delete_job():
+    id = request.json.get('id')
+
+    print(id)
+    job = Jobs.query.filter_by(id=id).first()
+
+    try:
+        db.session.delete(job)
+        db.session.commit()
+        return jsonify({"message":"Deleted Succesfully"})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"message":str(e)}),400
     

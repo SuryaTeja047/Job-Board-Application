@@ -1,4 +1,31 @@
-const JobCard = ({job,role}) => {
+import { useState } from "react";
+
+const JobCard = ({ job, role }) => {
+  const deleteJob = async () => {
+    const handleRefresh = () => {
+      window.location.reload();
+    };
+
+    const jobid = job.id;
+    const url = "http://localhost:5000/delete-job";
+    const token = localStorage.getItem("token");
+    const options = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ id: jobid }),
+    };
+    const response = await fetch(url, options);
+    const data = await response.json();
+    if (response.ok) {
+      alert("Deleted Job Succesfully!");
+      handleRefresh();
+    } else {
+      alert(data.message);
+    }
+  };
   return (
     <div className="card">
       <div className="card-body">
@@ -15,7 +42,9 @@ const JobCard = ({job,role}) => {
         ) : (
           <div className="d-flex justify-content-end">
             {/* <button className="btn btn-primary">Update</button> */}
-            <button className="btn btn-danger">Delete</button>
+            <button className="btn btn-danger" onClick={deleteJob}>
+              Delete
+            </button>
           </div>
         )}
       </div>
