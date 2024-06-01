@@ -19,8 +19,7 @@ const UserJobs = () => {
     });
     const data = await response.json();
     setUserJobs(data.userJobs);
-    console.log(userJobs);
   };
-  return <JobList jobs={userJobs} />;
+  return <JobList jobs={userJobs} role="employeer"/>;
 };
 export default UserJobs;

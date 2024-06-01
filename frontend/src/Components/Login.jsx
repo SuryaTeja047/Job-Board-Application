@@ -33,7 +33,7 @@ const Login = ({ onLogin }) => {
       // localStorage.setItem('token',token)
       onLogin(token,role,username)
       alert("Login Succesfull!");
-      navigate("/");
+      navigate("/dashboard");
     }
   };
   return (
