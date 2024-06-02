@@ -103,7 +103,7 @@ const Register = () => {
             ></input>
           </div>
           <div className="form-group">
-            <label>Enter Role:</label>
+            <label>Enter Profile Type:</label>
             <select
               className="form-control"
               value={role}

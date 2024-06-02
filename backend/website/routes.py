@@ -1,7 +1,7 @@
 from flask import Blueprint,jsonify,request
 from flask_jwt_extended import jwt_required,get_jwt_identity
 from website import db
-from .models import Jobs,Users
+from .models import Jobs,Users,Applications
 
 routes = Blueprint('routes',__name__)
 
@@ -77,3 +77,28 @@ def user_details():
     user = Users.query.filter_by(id=user_id).first()
     json_user = [user.to_json()]
     return jsonify({"user":json_user})
+
+@routes.route('/applyJob',methods=["POST"])
+@jwt_required()
+def apply_job():
+    user_id = get_jwt_identity()['user_id']
+    job_id = request.json.get('id')
+    print(job_id)
+    status = "Applied"
+    application = Applications.query.filter_by(job_id=job_id,user_id=user_id).first()
+    if application:
+        return jsonify({"message":"Already Applied for the job"})
+    application = Applications(user_id=user_id,job_id=job_id,status=status)
+
+    try:
+        db.session.add(application)
+        db.session.commit()
+    except Exception as e:
+        return jsonify({"message":str(e)}),400
+    return jsonify({"message":"Job Applied Succesfully!"})
+
+@routes.route('/get_applications')
+def get_applications():
+    applications = Applications.query.all()
+    json_applications = [application.to_json() for application in applications]
+    return jsonify({"applications":json_applications})

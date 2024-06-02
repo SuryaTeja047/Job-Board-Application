@@ -1,14 +1,14 @@
 import { useState } from "react";
 
 const JobCard = ({ job, role }) => {
-  const deleteJob = async () => {
-    const handleRefresh = () => {
-      window.location.reload();
-    };
+  const handleRefresh = () => {
+    window.location.reload();
+  };
+  const jobid = job.id;
+  const token = localStorage.getItem("token");
 
-    const jobid = job.id;
+  const deleteJob = async () => {
     const url = "http://localhost:5000/delete-job";
-    const token = localStorage.getItem("token");
     const options = {
       method: "DELETE",
       headers: {
@@ -26,6 +26,22 @@ const JobCard = ({ job, role }) => {
       alert(data.message);
     }
   };
+  const applyJob = async () => {
+    const response = await fetch("http://localhost:5000/applyJob", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ id: jobid }),
+    });
+    const data = await response.json();
+    if (response.ok) {
+      alert(data.message);
+    } else {
+      alert(data.message);
+    }
+  };
   return (
     <div className="card">
       <div className="card-body">
@@ -38,7 +54,9 @@ const JobCard = ({ job, role }) => {
           <p className="card-text text-muted">Posted By: {job.username}</p>
         </div>
         {role === "job seeker" ? (
-          <button className="btn btn-primary">Apply</button>
+          <button className="btn btn-primary" onClick={applyJob}>
+            Apply
+          </button>
         ) : (
           <div className="d-flex justify-content-end">
             {/* <button className="btn btn-primary">Update</button> */}

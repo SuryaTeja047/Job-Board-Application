@@ -10,6 +10,7 @@ class Users(db.Model,UserMixin):
     password = db.Column(db.String(250),nullable = False, unique = False)
     role = db.Column(db.String(50),nullable = False, unique = False)
     jobs = db.relationship('Jobs')
+    applications = db.relationship('Applications') 
 
     def to_json(self):
         return {
@@ -34,6 +35,7 @@ class Jobs(db.Model):
     location = db.Column(db.String(20),unique = False, nullable = False)
     salary = db.Column(db.Integer,unique = False, nullable = False)
     posted_by = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
+    applications = db.relationship('Applications') 
 
     def to_json(self):
         return {
@@ -45,4 +47,18 @@ class Jobs(db.Model):
             "salary":self.salary,
             "postedBy":self.posted_by,
             "username":Users.query.get(self.posted_by).username,
+        }
+
+class Applications(db.Model):
+    id = db.Column(db.Integer,primary_key = True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    job_id = db.Column(db.Integer,db.ForeignKey('jobs.id'), nullable = False)
+    status = db.Column(db.String(20))
+
+    def to_json(self):
+        return {
+            "id":self.id,
+            "userId":self.user_id,
+            "jobId":self.job_id,
+            "status":self.status,
         }
