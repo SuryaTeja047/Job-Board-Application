@@ -61,4 +61,7 @@ class Applications(db.Model):
             "userId":self.user_id,
             "jobId":self.job_id,
             "status":self.status,
+            "applicantUsername":Users.query.get(self.user_id).username,
+            "applicantEmail":Users.query.get(self.user_id).email,
+            "jobtitle":Jobs.query.get(self.job_id).title,
         }

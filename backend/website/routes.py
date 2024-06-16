@@ -102,3 +102,18 @@ def get_applications():
     applications = Applications.query.all()
     json_applications = [application.to_json() for application in applications]
     return jsonify({"applications":json_applications})
+
+@routes.route('/userApplications', methods=["GET"])
+@jwt_required()
+def get_applications_employer():
+    user_id = get_jwt_identity()['user_id']
+    jobs = Jobs.query.filter_by(posted_by=user_id).all()
+    job_ids = [job.id for job in jobs]
+    print(job_ids)
+
+    json_applications = []
+    for job_id in job_ids:
+        applications = Applications.query.filter_by(job_id=job_id).all()
+        json_applications.extend([application.to_json() for application in applications]) 
+
+    return jsonify({"applicants": json_applications})

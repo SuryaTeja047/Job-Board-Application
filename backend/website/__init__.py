@@ -10,7 +10,7 @@ def create_app():
 
     app.config.from_object('website.config.Config')
 
-    db.init_app(app)
+    db.init_app(app)        
     jwt.init_app(app)
 
     with app.app_context():
@@ -19,7 +19,7 @@ def create_app():
         app.register_blueprint(routes.routes)
         db.create_all()
     
-    CORS(app,origins=["http://localhost:5173"])
+    CORS(app)
 
     return app
     

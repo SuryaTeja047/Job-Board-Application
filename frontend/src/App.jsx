@@ -9,6 +9,7 @@ import UserJobs from "./Components/Jobs/UserJobs";
 import ProtectedRoute from "./Components/Home/ProtectedRoute";
 import Dashboard from "./Components/Home/Dashboard";
 import ProfileDashboard from "./Components/Profile/ProfileDashboard";
+import EmployerApplication from "./Components/Applications/EmployerApplication";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -80,6 +81,9 @@ function App() {
                           My Jobs
                         </Link>
                       </li>
+                      <li className="nav-item">
+                        <Link to='/employerApplication' className="nav-link">Applications</Link>
+                      </li>
                     </>
                   )}
                   {role === "job seeker" && (
@@ -122,6 +126,7 @@ function App() {
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Home />} />
+          <Route path="/employerApplication" element={<EmployerApplication />}/>
           {role === "employeer" && (
             <>
               <Route path="/createjobs" element={<CreateJob />} />
