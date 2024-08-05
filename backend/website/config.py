@@ -1,5 +1,10 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 class Config:
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///jobboard.db' 
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
+    SECRET_KEY = os.getenv('SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SECRET_KEY = 'asdfa sdf dasf a sf asf sa'  
-    JWT_SECRET_KEY = 'ad fy382 89   89878 fi sjf'  
+    JWT_SECRET_KEY = os.getenv('JWT_SECRET_KEY')
